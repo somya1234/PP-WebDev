@@ -2,7 +2,7 @@ let arr = [2,6,17,28,46,68];
 
 function mymap(arr,cb){
     new_arr = [];
-    for(i=0; i<arr.length; i++){
+    for(let i=0; i<arr.length; i++){
         new_arr.push(cb(arr[i]));
     }
     return new_arr;
