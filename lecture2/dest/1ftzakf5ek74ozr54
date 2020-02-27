@@ -1,0 +1,32 @@
+{
+    "isFile": false,
+    "name": "src",
+    "children": [
+        {
+            "isFile": false,
+            "name": "d10",
+            "children": [
+                {
+                    "isFile": false,
+                    "name": "d20",
+                    "children": []
+                },
+                {
+                    "isFile": true,
+                    "name": "f.txt",
+                    "newName": "1ftzakf4kk74ozbe0"
+                }
+            ]
+        },
+        {
+            "isFile": true,
+            "name": "f1.txt",
+            "newName": "1ftzakf4kk74ozbe1"
+        },
+        {
+            "isFile": true,
+            "name": "metadata.json",
+            "newName": "1ftzakf4kk74ozbe2"
+        }
+    ]
+}

@@ -28,10 +28,11 @@ function untreefyFolder(src,dest,node){
             let cPath = path.join(src,childrens[i]);
             untreefyFolder(cPath, dest,childObj);
             node.children.push(childObj);
-            
         }
     }
 }
+
+fs.writeFileSync(path.join(src,"metadata.txt"),JSON.stringify(root));
 console.log("All files have been copied");
 
 // function untreefy(src,dest,root){
