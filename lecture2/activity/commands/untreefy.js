@@ -6,10 +6,11 @@ module.exports.untreefy = function(){
     console.log("untreefy function is called");
     src = arguments[0];
     dest = arguments[1];
-    root = {};
+    let root = {};
     untreefyFolder(src,dest,root);
     console.log("All files are copied.");
-    console.log(root);
+    fs.writeFileSync(path.join(src,"metadata.json"),JSON.stringify(root));
+    console.log("Metadata is created.");
 }
 
 function untreefyFolder(src,dest,node){
