@@ -1,21 +1,36 @@
+let fs = require("fs");
+let path = require("path");
+const uniqid = require('uniqid');
+
 module.exports.untreefy = function(){
     console.log("untreefy function is called");
     src = arguments[0];
     dest = arguments[1];
-    untreefy(src,dest);
+    root = {};
+    untreefyFolder(src,dest,root);
+    console.log("All files are copied.");
+    console.log(root);
 }
 
-function untreefy(src,dest){
+function untreefyFolder(src,dest,node){
     let ans = fs.lstatSync(src).isDirectory();
-    if(ans==false){
+    if(ans == false){
         let uniqueName = uniqid();
-        fs.copyFileSync(src, path.join(dest,uniqueName));
-        console.log("copied a new file");
+        node.isFile = true;
+        node.name = path.basename(src);
+        node.newName = uniqueName;
+        fs.copyFileSync(src,path.join(dest,uniqueName));
     } else {
-        let children = fs.readdirSync(src);
-        for(let i=0; i<children.length; i++){
-            let cPath = path.join(src,children[i]);
-            untreefy(cPath,dest);
+        node.isFile = false;
+        node.name = path.basename(src);
+        node.children = [];
+        let childrens = fs.readdirSync(src);
+        for(let i=0; i<childrens.length; i++){
+            let childObj = {};
+            let cPath = path.join(src,childrens[i]);
+            untreefyFolder(cPath, dest,childObj);
+            node.children.push(childObj);
+            
         }
     }
 }
