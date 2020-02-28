@@ -19,6 +19,18 @@ request("https://www.espncricinfo.com/series/19322/scorecard/1187679", function(
 
 function parseHtml(html){
     let $ = cheerio.load(html);
-    let BowlingRecord = $('.scorecard-section.bowling').html();
-    fs.writeFileSync("table.html", BowlingRecord);
+    let maxWicketTaker = "";
+    let maxWickets = 0;
+    let tableArr = $('.scorecard-section.bowling table tbody tr');
+    for(let i=0; i<tableArr.length; i++){
+        let bowlerName = $(tableArr[i]).find("td a").html();
+        let wicket = $($(tableArr[i]).find("td")[5]).html();
+        //find does not work without cheerio ($) whenever an index comes.
+        if(wicket>maxWickets){
+            maxWickets = wicket;
+            maxWicketTaker = bowlerName;
+        }
+    }
+    console.log(maxWicketTaker + " "+ maxWickets);
+    fs.writeFileSync("table.html", tableArr);
 }
