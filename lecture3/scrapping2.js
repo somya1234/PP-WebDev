@@ -7,7 +7,6 @@ request("https://www.espncricinfo.com/series/19322/commentary/1187679", function
     if(err == null && res.statusCode == 200){
         // fs.writeFileSync("abc.html",html);
         parseHtml(html);
-        abc
         console.log("File written");
     } else {
         console.log(err);
