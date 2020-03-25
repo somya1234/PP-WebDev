@@ -14,3 +14,6 @@ function parseHtml(html){
 }
 let format = $(cardsHtml[i]).find().html();
 let ans = format.includes("T20I");
+if(ans){
+    let url = $(cardsHtml[i]).find("csocre")
+}
