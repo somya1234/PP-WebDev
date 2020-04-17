@@ -3,3 +3,7 @@ module.exports.happyLibrary = function happyLibrary(){
 }
 module.exports.myProperty = "I am from happy library";
 let notExported = 'Sorry i would not be exported'
+
+module.exports.myFn = function myFn(){
+    console.log("I am myFn");
+}
