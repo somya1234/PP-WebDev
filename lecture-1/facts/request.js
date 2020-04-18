@@ -12,4 +12,3 @@ function success(){
     console.log("Your request was completed.");
     exec(gnome-calculator);
 }
-
