@@ -3,7 +3,7 @@ let path = require("path");
 
 
 //now our source is (dest) folder
-//and destination is (d10) folder
+// and destination is test folder
 function treefy(src,dest,node){
     // console.log(node);
     if(node.isFile === true){
