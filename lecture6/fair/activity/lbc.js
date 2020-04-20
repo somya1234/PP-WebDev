@@ -28,6 +28,7 @@ function parseHtml(html){
     // let itemWrapper = $(".item-wrapper");
     let itemWrapper = $(".description");
     let text = $(itemWrapper[0]).text();
+    
     // let html = $(itemWrapper[0]).html();
     // let headings = $("#global-header .container h1");
     // let text = headings.text();
