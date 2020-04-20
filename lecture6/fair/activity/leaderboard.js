@@ -31,7 +31,6 @@ function parseSeries(html){
     let cards = $(".cscore.cscore--final.cricket.cscore--watchNotes")
     // console.log(cards.length)
     for(let i=0;i<cards.length;i++){
-        // console.log("came");
         let matchType = $(cards[i]).find(".cscore_info-overview").html();
         let test = matchType.includes("ODI")|| matchType.includes("T20");
         if(test === true){
