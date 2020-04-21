@@ -3,6 +3,7 @@ let request = require("request");
 let cheerio = require("cheerio");
 let count = 0;
 let leaderboard = [];
+// require("console.table");
 
 console.log("Before");
 request("https://www.espncricinfo.com/scores/series/19322",function(err,res,html){

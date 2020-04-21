@@ -23,7 +23,7 @@ function treefy(src, dest, node) {
         fs.copyFileSync(oldPath, newPath);
     } else {
         //imp to note the path to create a folder.
-        dest = path.join(dest, node.name);
+        dest = path.join(dest, node.data);
         fs.mkdirSync(dest);
         let children = node.children;
         for (let i = 0; i < children.length; i++) {

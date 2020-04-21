@@ -27,7 +27,7 @@ function untreefy(src,dest,node){
     } else {
 
         node.isFile = false;
-        node.name = path.basename(src);
+        node.data = path.basename(src);
         node.children = [];
 
         let children = fs.readdirSync(src);

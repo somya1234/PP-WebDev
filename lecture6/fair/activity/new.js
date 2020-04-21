@@ -1,5 +1,7 @@
 //first npm install request
 
+//tushar bhaiya => it is working perfectly.
+
 let request = require("request");
 let fs = require("fs");
 let cheerio = require("cheerio");
@@ -42,7 +44,7 @@ function parseSeries(html){
         }
         // console.log(type);
     }
-    console.log("`````````````");
+    console.log("`");
 }
 
 // page request 
@@ -56,6 +58,8 @@ function gotToMatchPage(matchLink){
             gcount--;
 
             if(gcount == 0){
+                // console.log(leaderboard);
+                console.log('it wfhefie')
                 console.table(leaderboard);
             }
             // count--;
@@ -73,27 +77,32 @@ function handleMatch(html){
     const $ = cheerio.load(html);
     //batsman, runs,format,teams
     let format = $(".cscore.cscore--final.cricket .cscore_info-overview").html();
-    format = (format.includes("ODI"))? "ODI" : "T20";
+    format = format.includes("ODI")? "ODI" : "T20";
+    console.log(format);
     //team
     let teams = $(".sub-module.scorecard h2");
     let innings = $(".sub-module.scorecard");
+    fs.writeFileSync('innings.html',innings);
     // console.log(format);
     for(let i=0;i<innings.length;i++){
-        let batsManRows = $(innings[i]).find(".scorecard-section.batsmen .flex-rows .wrap.batsmen");
+        let batsManRows = $(innings[i]).find(".scorecard-section.batsmen .flex-row .wrap.batsmen");
+        fs.writeFileSync('batsmen2.html',batsManRows);
         // console.log($(teams[i]).text());
         let team = $(teams[i]).text();
+        console.log(team);
         for(let br=0;br<batsManRows.length;br++){
             let batsMan = $(batsManRows[br]);
             let batsManName = batsMan.find(".cell.batsmen").text();
             //we need to find only first col, i.e html() => it gives only 1 col.
             let batsManRuns = batsMan.find(".cell.runs").html();
+            console.log(batsManName+"  "+batsManRuns)
             handlePlayer(format,team,batsManName,batsManRuns);
             // console.log(batsManName+" "+batsManRuns);
         }
-        // console.log("*************");
+        // console.log("***");
 
     }
-    // console.log("###################");
+    console.log("###################");
 }
 // console.log("after");
 
