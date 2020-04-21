@@ -35,7 +35,7 @@ function parseSeries(html){
         let test = matchType.includes("ODI")|| matchType.includes("T20");
         if(test === true){
             console.log(matchType);
-            let anchor = $(cards[i]).find(".csocre_buttonGroup ul li a").attr("href");
+            let anchor = $(cards[i]).find(".cscore_buttonGroup ul li a").attr("href");
             let matchLink = `https://www.espncricinfo.com${anchor}`;
             gotToMatchPage(matchLink);
 
@@ -72,12 +72,12 @@ function gotToMatchPage(matchLink){
 function handleMatch(html){
     const $ = cheerio.load(html);
     //batsman, runs,format,teams
-    let format = $(".cscore.csocre--final.cricket .csocre_info-overview").html();
-    format = format.includes("ODI")? "ODI" : "T20";
+    let format = $(".cscore.cscore--final.cricket .cscore_info-overview").html();
+    format = (format.includes("ODI"))? "ODI" : "T20";
     //team
     let teams = $(".sub-module.scorecard h2");
     let innings = $(".sub-module.scorecard");
-    console.log(format);
+    // console.log(format);
     for(let i=0;i<innings.length;i++){
         let batsManRows = $(innings[i]).find(".scorecard-section.batsmen .flex-rows .wrap-batsmen");
         // console.log($(teams[i]).text());
@@ -105,6 +105,7 @@ function handlePlayer(format,team,batsManName,batsManRuns){
         let pObj = leaderboard[i];
         if(pObj.name == batsManName && pObj.team == team && pObj.format ===format){
             pObj.runs += batsManRuns;
+            return;
         }
     }
     let obj = {
