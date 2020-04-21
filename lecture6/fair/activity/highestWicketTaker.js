@@ -3,6 +3,8 @@ let cheerio = require("cheerio");
 let request = require("request");
 console.log("**sending request**");
 
+//A better way in this question to solve.
+
 request("https://www.espncricinfo.com/series/19322/scorecard/1187683",function(err,res,html){
     if(err===null && res.statusCode==200){
         // fs.writeFile("hwt.html",html,function(err){
@@ -22,11 +24,7 @@ request("https://www.espncricinfo.com/series/19322/scorecard/1187683",function(e
 function parseHtml(html){
     let $ = cheerio.load(html);
     console.log("`````````````````````");
-    $(".scorecard-section .bowling")
 
-    // let team1Bowler = $(scoreCardBowl[0]).text();
-    // let team2Bowler = $(scoreCardBowl[1]).text();
-    
     // let scoreCardBowl = $(".scorecard-section.bowling");
     /*for(let i=0;i<scoreCardBowl.length;i++){
         let tArry1 = $(scoreCardBowl[i]).find("table tbody tr");
@@ -34,7 +32,6 @@ function parseHtml(html){
         console.log(`Bowlers of team ${i+1} are:-`)
         for(let j=0;j<tArry1.length;j++){
             console.log($(tArry1[j]).text());
-            // Math.max()
         }
         console.log("``````````````````````")
     }*/
@@ -43,6 +40,7 @@ function parseHtml(html){
     let maxwicket=0;
     let maxwickettaker=" ";
     for(let i=0;i<bowlers.length;i++){
+        //2 chherio => 1 for bowlers array and another for td array.
         let bowlername=$($(bowlers[i]).find("td")[0]).text();
         let wicket=$($(bowlers[i]).find("td")[5]).text();
         if(wicket>maxwicket){
@@ -52,16 +50,6 @@ function parseHtml(html){
 
     }
     console.log(maxwickettaker+" "+maxwicket);
-
-    // for(let i=0;i<bowlers.length;i++){
-    //     let maxWicket = 0;
-    //     let bowlerName = $($(bowlers[i]).find("td")[0]).text();
-    //     let wickets = $($(bowlers[i]).find("td")[5]).text();
-    //     maxWicket = Math.max(maxWicket,wickets);
-
-    //     console.log(`${bowlerName}   ${maxWicket}`);
-    // }
-    // console.log(scoreCardBowl.text());
 
     // fs.writeFileSync("scorecard.html",),
     //search or access the html file by operning in firefox.
