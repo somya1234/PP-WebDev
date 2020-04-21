@@ -39,18 +39,22 @@ credentialsWillBeReadPromise.then(function(credentials){
     //everything will be an attribute except input (which is a tag).
 
     let emailWillBeSelectedPromise =  driver.findElement(swd.By.css("input[type=email]"));
-    let passwordWillBeSelectedPromise = driver.findElement(swd.By.css("input[type=password"));
-    let combinedPromise = Promise.all(emailWillBeSelectedPromise,passwordWillBeSelectedPromise);
-    //array => answer
+    //return sends theat the promise is done to the next .then() promise,
+    //so that can execute.
 
-    return combinedPromise;
+    //it is a promise at the time of console.(webElementPromise)
+    // console.log(emailWillBeSelectedPromise)
+    return emailWillBeSelectedPromise;
     //click
-}).then(function(ElementsArray){
-    let emailWillBeSendPromise = emailElement.sendKeys(username);
-    let passwordWillBeSendPromise = passwordElement.sendKeys(password);
-    let combinedInputPromise = Promise.all([emailWillBeSendPromise,passwordWillBeSendPromise]);
-    return combinedInputPromise;
-
+}).then(function(emailElement){
+    let abracadabraWillSendPromise = emailElement.sendKeys(username);
+    return abracadabraWillSendPromise;
+}).then(function(){
+    let passwordWillBeSelectedPromise = driver.findElement(swd.By.css("input[type=password"));
+    return passwordWillBeSelectedPromise;
+}).then(function(passwordElement){
+    let passwordWillBeEnteredPromise = passwordElement.sendKeys(password);
+    return passwordWillBeEnteredPromise;
 }).then(function(){
     let submitBtnWillSelected = driver.findElement(swd.By.css("button[type=submit]"));
     return submitBtnWillSelected;
@@ -67,26 +71,9 @@ credentialsWillBeReadPromise.then(function(credentials){
     //otherwise we could have done by click method by taking the class only.
     let rPageLinkPromise = resourceCard.getAttribute("href");
     return rPageLinkPromise;
-}).then(function(rPageLink){
-    let NavigateToCourseListPage = driver.get(rPageLink);
-    return NavigateToCourseListPage;
 }).then(function(){
-    let siteOverlayWillBeSelectedPromise = driver.findElement(swd.By.css("#siteOverlay"));
-    return siteOverlayWillBeSelectedPromise;
-}).then(function(soe){
-    //it will throw error after 10s , if the preloader doesn't hide
-    let waitForOverlayToRemovepromise =driver.wait(swd.until.elementIsNotVisible(soe),10000);
-    return waitForOverlayToRemovepromise;
-}).then(function(){
-    let courseWillBeLocatedPromise = driver.findElement(swd.By.css("#CourseCard33"));
-    return courseWillBeLocatedPromise;
-}).then(function(courseCard){
-    let courseCardWillBeClickedPromise
-}).then(function()){
-    //it is necessary to click, because it is not necessary that we will always be selecting the first 
-    //element, which is by default.
-    //we can also select DP.
-}
+
+})
 .catch(function(err){
     //if any error comes in between the then chain, and the chain will of then will break
     // and catch will catch the error
