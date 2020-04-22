@@ -19,7 +19,7 @@ let driver = bldr.forBrowser("chrome").build();
 // let googlePageWillOpenPromised =  (earlier)
 
 
-//all these things are done serially asynchronous way.
+//all these things are done in a serially asynchronous way.
 
 let credentialsWillBeReadPromise = fs.promises.readFile(credentialFile);
 credentialsWillBeReadPromise.then(function(credentials){
