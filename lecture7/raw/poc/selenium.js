@@ -43,7 +43,7 @@ credentialsWillBeReadPromise.then(function (credentials) {
 
     let emailWillBeSelectedPromise = driver.findElement(swd.By.css("input[type=email]"));
     let passwordWillBeSelectedPromise = driver.findElement(swd.By.css("input[type=password"));
-    let combinedPromise = Promise.all(emailWillBeSelectedPromise, passwordWillBeSelectedPromise);
+    let combinedPromise = Promise.all([emailWillBeSelectedPromise, passwordWillBeSelectedPromise]);
     //array => answer
 
     return combinedPromise;
@@ -95,7 +95,7 @@ credentialsWillBeReadPromise.then(function (credentials) {
         let waitForOverlayToRemovepromise = driver.wait(swd.until.elementIsNotVisible(soe), 10000);
         return waitForOverlayToRemovepromise;
     }).then(function () {
-        let courseWillBeLocatedPromise = driver.findElement(swd.By.css("#CourseCard33"));
+        let courseWillBeLocatedPromise = driver.findElement(swd.By.css("#courseCard33"));
         return courseWillBeLocatedPromise;
     }).then(function (courseCard) {
         let courseCardWillBeClickedPromise = courseCard.click();
