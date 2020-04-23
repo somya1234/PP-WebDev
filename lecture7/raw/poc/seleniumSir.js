@@ -92,7 +92,7 @@ credentialsWillBeReadPromise
   // ******************************************************* Moduleclick***************************************
   .then(function () {
     let lisTabToBeLocatedPromise = driver.wait(swd.until.elementsLocated(swd.By.css(".lis.tab")), 10000);
-    lisTabToBeLocatedPromise
+    return lisTabToBeLocatedPromise;
   }).
   then(function () {
     let ModulesWillBeSelectedPromise = driver.findElements(swd.By.css(".lis.tab"));
@@ -112,6 +112,7 @@ credentialsWillBeReadPromise
     let i;
     for (i = 0; i < AllModulesText.length; i++) {
       if (AllModulesText[i].includes("Dynamic Programming") == true) {
+        // console.log("yes, it is true");
         break;
       }
     }

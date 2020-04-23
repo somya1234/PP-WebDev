@@ -1,3 +1,12 @@
+//*******************Description******************************************* */
+
+//It contains the serially asynchronous calls of promise
+//Initially, I worked with this, then I switched to selenium.js (in which there are 
+// parallel asynchronous calls of promises.)
+
+//You can refer this for more clearance of concepts.
+
+
 let swd = require("selenium-webdriver");
 require("chromedriver");
 let fs = require("fs");
