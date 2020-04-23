@@ -121,7 +121,7 @@ googlePageWillBeOpenedPromise.then(function () {
     }) 
         /*******************module overlay *Not Removed*      ********************** */
     .then(function () {
-        let listToBeLocatedPromise = driver.wait(swd.until.elementLocated(swd.By.css(".lis.tab"), 10000));
+        let listToBeLocatedPromise = driver.wait(swd.until.elementLocated(swd.By.css(".lis.tab")), 10000);
         return listToBeLocatedPromise;
     }).then(function () {
         let ModulesWillBeSelectedPromise = driver.findElements(swd.By.css(".lis.tab"));
@@ -205,7 +205,7 @@ googlePageWillBeOpenedPromise.then(function () {
     })
     /*****************removing overlay for problem click (from lecture page)*********** */
     .then(function () {
-        let lectureOverlayWillWaitPromise = driver.wait(swd.until.elementsLocated(swd.By.css("#siteOverlay"), 10000));
+        let lectureOverlayWillWaitPromise = driver.wait(swd.until.elementsLocated(swd.By.css("#siteOverlay")), 10000);
         return lectureOverlayWillWaitPromise;
     }).then(function () {
         let lectureOverlayWillBeSelectedPromise = driver.findElement(swd.By.css("#siteOverlay"));
@@ -255,7 +255,7 @@ googlePageWillBeOpenedPromise.then(function () {
 
     //************************ clicking the editors******************************** */
     .then(function () {
-        let editorWillWaitPromise = driver.wait(swd.until.elementsLocated(swd.By.css(".editorTab a[action=showEditor]"), 10000));
+        let editorWillWaitPromise = driver.wait(swd.until.elementsLocated(swd.By.css(".editorTab a[action=showEditor]")), 10000);
         return editorWillWaitPromise;
     }).then(function () {
         let editorBoxSelectedPromise = driver.findElement(swd.By.css(".editorTab a[action=showEditor]"));
