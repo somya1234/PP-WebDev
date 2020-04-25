@@ -16,7 +16,7 @@ let fs = require('fs');
 /********another way */
 fs.readFile("../../f1.html",f1cb);
 function f1cb(err,data){
-    console.log("F1 data"+data.length);
+    console.log("F1 data");
     fs.readFile("../../f1.txt",f2cb);
 }
 function f2cb(err,data){
@@ -26,4 +26,4 @@ function f2cb(err,data){
 function f3cb(err,data){
     console.log("F3 data");
 }
-fs.readFile()
+// fs.readFile()
