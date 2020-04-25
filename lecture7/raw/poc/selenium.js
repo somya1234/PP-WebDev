@@ -5,7 +5,7 @@ let fs = require("fs");
 let credentialFile = process.argv[2];
 let metaDataFile = process.argv[3];
 // let courseName = process.argv[4];
-let username, password, gModules;
+let username, password;
 
 //browser build
 let bldr = new swd.Builder();
@@ -84,17 +84,19 @@ credentialsWillBeReadPromise.then(function (credentials) {
         // console.log(rPageLink);
         let NavigateToCourseListPage = driver.get(rPageLink);
         return NavigateToCourseListPage;
-    }).then(function () {
-        let siteOverlayWillBeSelectedPromise = driver.findElement(swd.By.css("#siteOverlay"));
-        return siteOverlayWillBeSelectedPromise;
-        //*******************************check************************** */
-        // if both these fns can be converted into one, 
-        //by replacing soe with the class from #siteOverlay.
-    }).then(function (soe) {
-        //it will throw error after 10s , if the preloader doesn't hide
-        let waitForOverlayToRemovepromise = driver.wait(swd.until.elementIsNotVisible(soe), 10000);
-        return waitForOverlayToRemovepromise;
-    }).then(function () {
+    }).then(willWaitForOverlay)
+    // }).then(function () {
+    //     let siteOverlayWillBeSelectedPromise = driver.findElement(swd.By.css("#siteOverlay"));
+    //     return siteOverlayWillBeSelectedPromise;
+    //     //*******************************check************************** */
+    //     // if both these fns can be converted into one, 
+    //     //by replacing soe with the class from #siteOverlay.
+    // }).then(function (soe) {
+    //     //it will throw error after 10s , if the preloader doesn't hide
+    //     let waitForOverlayToRemovepromise = driver.wait(swd.until.elementIsNotVisible(soe), 10000);
+    //     return waitForOverlayToRemovepromise;
+    // })
+    .then(function () {
         let courseWillBeLocatedPromise = driver.findElement(swd.By.css("#courseCard33"));
         return courseWillBeLocatedPromise;
     }).then(function (courseCard) {
@@ -102,7 +104,7 @@ credentialsWillBeReadPromise.then(function (credentials) {
         return courseCardWillBeClickedPromise;
     })
     //*******************************Module Click  */
-    .then(function () {
+   /* .then(function () {
         //it is necessary to click, because it is not necessary that we will always be selecting the first 
         //element, which is by default.
         //we can also select DP.
@@ -134,7 +136,7 @@ credentialsWillBeReadPromise.then(function (credentials) {
         let moduleWillBeClickedPromise = gModules[i].click();
         //understand this by printing output
         return moduleWillBeClickedPromise;
-    })
+    })*/
     //Homework ---------------------------------------------
     // ********************************Lecture***************************************
     //***********************************Question**************************** */
@@ -146,6 +148,8 @@ credentialsWillBeReadPromise.then(function (credentials) {
         //check why it is important to parse again
         metadata = JSON.parse(metadata);
         let question = metadata[0];
+        let willWaitToBenavigatedToQnPage = goToQuestionPage(question);
+        return willWaitToBenavigatedToQnPage;
         // let willOpenQuestionPagePromise = driver.get(question.url);
         // return willOpenQuestionPagePromise;
         // }).then(function(){
@@ -165,35 +169,32 @@ credentialsWillBeReadPromise.then(function (credentials) {
 //=> search submit
 //=> press submit btn
 
-function goToquestionPage() {
-    let listTabToBeLocatedPromise = driver.wait(swd.until.elementsLocated(swd.By.css(".lis.tab")), 10000);
-    listTabToBeLocatedPromise.then(function () {
-        let ModulesWillBeSelectedPromise = driver.findElements(swd.By.css(".lis.tab"));
-        return ModulesWillBeSelectedPromise;
-    }).then(function (modules) {
-        //console.log(modules);
-        gModules = modules;
-        // console.log(modules.length);
-        let moduleTextPromiseArr = [];
-        for (let i = 0; i < modules.length; i++) {
-            let moduleNamePromise = modules[i].getText();
-            moduleTextPromiseArr.push(moduleNamePromise);
-        }
-        let AllModuleNamesPromise = Promise.all(moduleTextPromiseArr);
-        return AllModuleNamesPromise;
-    }).then(function (AllModulesText) {
-        let i;
-        for (i = 0; i < AllModulesText.length; i++) {
-            if (AllModulesText[i].includes("Dynamic Programming") === true) {
-                //it results in true or false (boolean value)
-                break;
-            }
-        }
-        let moduleWillBeClickedPromise = gModules[i].click();
-        //understand this by printing output
-        return moduleWillBeClickedPromise;
+function goToQuestionPage(question) {
+      //wait for overlay 
+    //will click on module 
+    //wait for overlay 
+    // will click on lecture
+    //wait for overlay
+    //click on question 
+    return new Promise(function(resolve,reject){
+        let waitPromise = willWaitForOverlay();
+        waitPromise.then(function(){
+            let willClickModule = navigationHelper(question.module,".lis.tab");
+            return willClickModule;
+        }).then(willWaitForOverlay).then(function(){
+            let willClickOnLecture = navigationHelper(question.lecture,".collection-item");
+            return willClickOnLecture;
+        }).then(willWaitForOverlay).then(function(){
+            let willClickQuestion = navigationHelper(question.problem,".collection-item");
+            return willClickQuestion;
+        })
+        //i guess we can write function(resolve ) or resolve(); directly
+        .then(function(){
+            resolve();
+        }).catch(function(){
+            reject();
+        })
     })
-
 }
 
 console.log("yaha kuch nahi hua hai");
@@ -202,3 +203,70 @@ console.log("yaha kuch nahi hua hai");
 // googlePageWillOpenPromised.catch(function(err){
 //     console.log(err);
 // });
+
+//these code is used a lot of times
+//so we are writing using a function and made a separate promise here.
+function willWaitForOverlay() {
+    let waitForPromiseIsDismissed = new Promise(function (resolve, reject) {
+        //let us assume done is working
+        //wait for overlay
+        let waitForSoe = driver.wait(swd.until.elementLocated(swd.By.css("#siteOverlay")));
+        //search overlay
+        waitForSoe.then(driver.findElement(swd.By.css("#siteOverlay")))
+            .then(function (soe) {
+                //wait
+                let waitForOverlayToRemovepromise = driver.wait(swd.until.elementIsNotVisible(soe), 10000);
+                return waitForOverlayToRemovepromise;
+            }).then(function () {
+                resolve();
+            }).catch(function () {
+                reject(err);
+            })
+
+        //done above //this was just rough to understand in layman language
+        // if(done){
+        //     resolve();
+        // } else {
+        //     reject(err);
+        // }
+    })
+    return waitForPromiseIsDismissed;
+}
+
+function navigationHelper(nameToBeSelected, selector){
+    return new Promise(function(resolve,reject){
+        let gElements;
+        let listTabToBeLocatedPromise = driver.wait(swd.until.elementsLocated(swd.By.css(selector)), 10000);
+        listTabToBeLocatedPromise.then(function () {
+            let ModulesWillBeSelectedPromise = driver.findElements(swd.By.css(selector));
+            return ModulesWillBeSelectedPromise;
+        }).then(function (modules) {
+            //console.log(modules);
+            gElements = modules;
+            // console.log(modules.length);
+            let moduleTextPromiseArr = [];
+            for (let i = 0; i < modules.length; i++) {
+                let moduleNamePromise = modules[i].getText();
+                moduleTextPromiseArr.push(moduleNamePromise);
+            }
+            let AllModuleNamesPromise = Promise.all(moduleTextPromiseArr);
+            return AllModuleNamesPromise;
+        }).then(function (AllModulesText) {
+            let i;
+            for (i = 0; i < AllModulesText.length; i++) {
+                if (AllModulesText[i].includes(nameToBeSelected) === true) {
+                    //it results in true or false (boolean value)
+                    break;
+                }
+            }
+            let moduleWillBeClickedPromise = gElements[i].click();
+            //understand this by printing output
+            return moduleWillBeClickedPromise;
+        }).then(function(){
+            resolve();
+        }).catch(function(){
+            reject();
+        })
+    
+    })
+}

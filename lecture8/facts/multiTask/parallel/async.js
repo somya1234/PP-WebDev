@@ -17,7 +17,7 @@ console.log("cpu is stuck till file is read");
 //when files are of comparable size (e.g 15 and 17),
 // then any of the file comes first 
 
-fs.readFile("../../f1.html",function cb(err,data){
+fs.readFile("f2.txt",function cb(err,data){
     console.log("file 1 has arrived");
     console.log(data.byteLength);
 });
@@ -30,7 +30,7 @@ fs.readFile("../../f1.html",function cb(err,data){
 // }
 //10 seconds
 console.log("file 2 reading process");
-fs.readFile("../../f1.txt",function cb(err,data){
+fs.readFile("f1.txt",function cb(err,data){
     console.log("file 2 has arrived");
     console.log(data.byteLength);
     //check this => Google
