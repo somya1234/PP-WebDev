@@ -11,7 +11,7 @@ function promiseMultiFileReader(){
     let file1WillBeReadFromPromise = fs.promises.readFile(files[0]);
 
     for(let i=1;i<files.length;i++){
-        console.log("Making request fro promise  ",i)
+        // console.log("Making request fro promise  ",i);
         file1WillBeReadFromPromise =  file1WillBeReadFromPromise.then(function(data){
             // console.log(data); => check.
             console.log(` file ${i} printed`);
