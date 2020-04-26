@@ -5,9 +5,11 @@ function parallel_Promise(){
         let readFirstFilePromise = fs.promises.readFile("../../f1.txt");
         let readSecondFilePromise = fs.promises.readFile("../../f1.html");
         let combinedPromise = Promise.all([readFirstFilePromise,readSecondFilePromise]);
-        combinedPromise.then(function(data){
+        combinedPromise.then(function(dataArr){
             // resolve("success");
-            console.log(data);
+            for(let i=0;i<dataArr.length;i++){
+                console.log(dataArr[i].byteLength);
+            }
         }).catch(function(err){
             // reject(err);
             console.log(err);
