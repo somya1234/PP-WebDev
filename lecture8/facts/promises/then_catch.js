@@ -27,7 +27,7 @@ newPromise.then(function(){
     console.log("new promise called");
 }).catch(function(err){
     //error is traped here. and so when the next then is called, no error is there.
-    console.log(err);
+    console.log(err);w
     //nothing returned
     //it means returned undefined
 }).then(function(data){
