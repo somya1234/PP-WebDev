@@ -218,6 +218,7 @@ function willWaitForOverlay() {
                 let waitForOverlayToRemovepromise = driver.wait(swd.until.elementIsNotVisible(soe), 10000);
                 return waitForOverlayToRemovepromise;
             }).then(function () {
+                // console.log(resolve());
                 resolve();
             }).catch(function () {
                 reject(err);
