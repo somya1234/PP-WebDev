@@ -24,6 +24,13 @@ let driver = bldr.forBrowser("chrome").build();
 //all these things are done serially asynchronous way.
 // **************************Login*****************************
 
+// => search email
+// => input email
+// => search password
+// => input password
+//=> search submit
+//=> press submit btn
+
 let credentialsWillBeReadPromise = fs.promises.readFile(credentialFile);
 credentialsWillBeReadPromise.then(function (credentials) {
     credentials = JSON.parse(credentials);
@@ -37,7 +44,7 @@ credentialsWillBeReadPromise.then(function (credentials) {
     //when the page is opened
     //search email box
 
-    //we find this email element input by inspecting at that usernname box.
+    //we find this email element input by "inspecting" at that usernname box.
     //we use findElement because it is an attribute (type is an atribute)
     //everything will be an attribute except input (which is a tag).
 
@@ -103,43 +110,7 @@ credentialsWillBeReadPromise.then(function (credentials) {
         let courseCardWillBeClickedPromise = courseCard.click();
         return courseCardWillBeClickedPromise;
     })
-    //*******************************Module Click  */
-   /* .then(function () {
-        //it is necessary to click, because it is not necessary that we will always be selecting the first 
-        //element, which is by default.
-        //we can also select DP.
-        let listToBeLocatedPromise = driver.wait(swd.until.elementsLocated(swd.By.css(".lis.tab")), 10000);
-        return listToBeLocatedPromise;
-        ///////////////////////not sure about the above statement
-    }).then(function () {
-        let ModulesWillBeSelectedPromise = driver.findElements(swd.By.css(".lis.tab"));
-        return ModulesWillBeSelectedPromise;
-    }).then(function (modules) {
-        //console.log(modules);
-        gModules = modules;
-        // console.log(modules.length);
-        let moduleTextPromiseArr = [];
-        for (let i = 0; i < modules.length; i++) {
-            let moduleNamePromise = modules[i].getText();
-            moduleTextPromiseArr.push(moduleNamePromise);
-        }
-        let AllModuleNamesPromise = Promise.all(moduleTextPromiseArr);
-        return AllModuleNamesPromise;
-    }).then(function (AllModulesText) {
-        let i;
-        for (i = 0; i < AllModulesText.length; i++) {
-            if (AllModulesText[i].includes("Dynamic Programming") === true) {
-                //it results in true or false (boolean value)
-                break;
-            }
-        }
-        let moduleWillBeClickedPromise = gModules[i].click();
-        //understand this by printing output
-        return moduleWillBeClickedPromise;
-    })*/
-    //Homework ---------------------------------------------
-    // ********************************Lecture***************************************
-    //***********************************Question**************************** */
+   
     .then(function () {
         //read json file
         let metaDataWillBeReadPromise = fs.promises.readFile(metaDataFile);
@@ -150,24 +121,12 @@ credentialsWillBeReadPromise.then(function (credentials) {
         let question = metadata[0];
         let willWaitToBenavigatedToQnPage = goToQuestionPage(question);
         return willWaitToBenavigatedToQnPage;
-        // let willOpenQuestionPagePromise = driver.get(question.url);
-        // return willOpenQuestionPagePromise;
-        // }).then(function(){
-        // console.log("Opened question page");
-        // list => names
-        // name => metadata.json => question name
     }).catch(function (err) {
-        //if any error comes in between the then chain, and the chain will of then will break
-        // and catch will catch the error
+        //if any error comes in between the then chain, then , if then() wasn't able to cactch 
+        // the error in the chain, catch() will catch the error.
         console.log(err);
     });
 
-// => search email
-// => input email
-// => search password
-// => input password
-//=> search submit
-//=> press submit btn
 
 function goToQuestionPage(question) {
       //wait for overlay 
@@ -212,6 +171,21 @@ function willWaitForOverlay() {
         //wait for overlay
         let waitForSoe = driver.wait(swd.until.elementLocated(swd.By.css("#siteOverlay")));
         //search overlay
+
+        /*
+        waitForSoe
+            .then(driver.wait(swd.until.elementIsNotVisible(driver.findElement(swd.By.css("#siteOverlay"))), 10000)) 
+            .then(function () {
+                // console.log(resolve());
+                console.log("chlgya");
+                resolve();
+            }).catch(function (err) {
+                console.log(err);
+                reject(err);
+            })*/
+
+
+
         waitForSoe.then(driver.findElement(swd.By.css("#siteOverlay")))
             .then(function (soe) {
                 //wait
@@ -220,7 +194,7 @@ function willWaitForOverlay() {
             }).then(function () {
                 // console.log(resolve());
                 resolve();
-            }).catch(function () {
+            }).catch(function (err) {
                 reject(err);
             })
 
@@ -237,6 +211,9 @@ function willWaitForOverlay() {
 function navigationHelper(nameToBeSelected, selector){
     return new Promise(function(resolve,reject){
         let gElements;
+         //it is necessary to click, because it is not necessary that we will always be selecting the first 
+        //element, which is by default.
+        //we can also select DP.
         let listTabToBeLocatedPromise = driver.wait(swd.until.elementsLocated(swd.By.css(selector)), 10000);
         listTabToBeLocatedPromise.then(function () {
             let ModulesWillBeSelectedPromise = driver.findElements(swd.By.css(selector));
@@ -247,6 +224,7 @@ function navigationHelper(nameToBeSelected, selector){
             // console.log(modules.length);
             let moduleTextPromiseArr = [];
             for (let i = 0; i < modules.length; i++) {
+                //getText() also gives a promise.
                 let moduleNamePromise = modules[i].getText();
                 moduleTextPromiseArr.push(moduleNamePromise);
             }
