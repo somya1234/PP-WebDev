@@ -16,4 +16,4 @@ public class Main{
         int fact = factFromFn*n;
         return fact;
     }
-};`
+}
