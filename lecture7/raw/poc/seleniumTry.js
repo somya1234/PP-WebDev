@@ -39,7 +39,16 @@ credentialsWillBeReadPromise.then(function (credentials) {
     password = credentials.password;
     let googlePageWillBeOpenedPromise = driver.get("https://www.pepcoding.com/login");
     return googlePageWillBeOpenedPromise;
-}).then(function () {
+}).then(function(){
+    //implicit wait
+    //you do not need wait for the elements anywhere else in the program. 
+    //it will set to wait for all findElement() and findElements() by default using this fn.
+    let willBeSetPromise = driver.manage().setTimeouts({
+        implicit:10000
+    })
+    return willBeSetPromise;
+})
+.then(function () {
     // console.log("Google page opened");
     //when the page is opened
     //search email box
@@ -121,7 +130,11 @@ credentialsWillBeReadPromise.then(function (credentials) {
         let question = metadata[0];
         let willWaitToBenavigatedToQnPage = goToQuestionPage(question);
         return willWaitToBenavigatedToQnPage;
-    }).catch(function (err) {
+    }).then(function(){
+        let willWaitForTheSolutionPromise = solveQuestion();
+        return willWaitForTheSolutionPromise;
+    })
+    .catch(function (err) {
         //if any error comes in between the then chain, then , if then() wasn't able to cactch 
         // the error in the chain, catch() will catch the error.
         console.log(err);
@@ -244,5 +257,38 @@ function navigationHelper(nameToBeSelected, selector){
 }
 
 
+function solveQuestion(){
+    //click on editorTab 
+    return new Promise(function(resolve,reject){
+        let waitPromise = willWaitForOverlay();
+        waitPromise.then(function(){
+            let willClickOnEditorPromise = clickOnEditor();
+            console.log("idhar aagya firse")
+            return willClickOnEditorPromise; 
+        }).then(function(){
+            console.log("Solution found");
+            resolve();
+        }).catch(function(err){
+            reject(err);
+        })
+    })
+}
+
+function clickOnEditor(){
+    return new Promise(function(resolve,reject){
+        let editorWillBeSelectedPromise = driver.findElements(swd.By.css(".editorTab a"));
+        editorWillBeSelectedPromise.then(function(editor){
+        console.log("mila element");
+        let newPromise = editor[0].click();
+        return newPromise;
+    }).then(function(){
+        console.log("Editor is clicked");
+        resolve();
+    }).catch(function(err){
+        console.log(err);
+        reject(err);
+    })
+})
+}
 
 console.log("after");
