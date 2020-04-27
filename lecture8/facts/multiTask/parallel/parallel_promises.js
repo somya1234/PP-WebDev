@@ -7,9 +7,9 @@ function parallel_Promise(){
         let combinedPromise = Promise.all([readFirstFilePromise,readSecondFilePromise]);
         combinedPromise.then(function(dataArr){
             // resolve("success");
-            for(let i=0;i<dataArr.length;i++){
-                console.log(dataArr[i].byteLength);
-            }
+            // for(let i=0;i<dataArr.length;i++){
+            //     console.log(dataArr[i].byteLength);
+            // }
         }).catch(function(err){
             // reject(err);
             console.log(err);
@@ -17,8 +17,14 @@ function parallel_Promise(){
     })
 }
 
-parallel_Promise();
+let bfwbrp =parallel_Promise();
+bfwbrp.then(function(data){
+    console.log(data);
 
+}).catch(function(err)
+{
+    console.log(err)
+})
 // parallel_Promise().then(function(data){
 //     console.log(data);
 // }).then(undefined,function(err){
