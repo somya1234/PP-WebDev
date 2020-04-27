@@ -4,6 +4,7 @@ let fs = require("fs");
 // let credentials = require("credentials.json");
 let credentialFile = process.argv[2];
 let metaDataFile = process.argv[3];
+let codeFile = "codes/code1/main.java";
 // let courseName = process.argv[4];
 let username, password;
 
@@ -259,6 +260,8 @@ function navigationHelper(nameToBeSelected, selector){
 
 function solveQuestion(){
     //click on editorTab 
+    //take the test whatever written there
+    //upload the answer
     return new Promise(function(resolve,reject){
         let waitPromise = willWaitForOverlay();
         waitPromise.then(function(){
@@ -266,11 +269,42 @@ function solveQuestion(){
             console.log("idhar aagya firse")
             return willClickOnEditorPromise; 
         }).then(function(){
+            let willUploadAnswerPromise = uploadAnswer();
+            return willUploadAnswerPromise;
+        })
+        .then(function(){
             console.log("Solution found");
             resolve();
         }).catch(function(err){
             reject(err);
         })
+    })
+}
+
+function uploadAnswer(){
+    let codeText = "";
+    return new Promise(function(resolve,reject){
+        let readFile = fs.promises.readFile(codeFile);
+        readFile.then(function(code){
+            codeText+=code;
+        })
+        .then(function(){
+            let findTextEditorPromise = driver.findElement(swd.By.css("#codeEditor3120 textarea"));
+            return findTextEditorPromise;
+        }).then(function(textbox){
+            console.log("we got elements");
+            let textBoxClearPromise = textbox.clear();
+           textbox.sendKeys(codeText);
+            return textBoxClearPromise;
+        })
+        .then(function(){
+            console.log("Code has been copied");
+            resolve("success 1");
+        }).catch(function(err){
+            console.log(err);
+            reject(err);
+        })
+
     })
 }
 
