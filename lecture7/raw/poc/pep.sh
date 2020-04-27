@@ -1,1 +1,1 @@
-node selenium "credentials.json" "metadata.json"
+node seleniumTry "credentials.json" "metadata.json"
