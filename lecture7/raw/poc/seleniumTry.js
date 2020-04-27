@@ -124,11 +124,14 @@ credentialsWillBeReadPromise.then(function (credentials) {
     .then(function () {
         //read json file
         let metaDataWillBeReadPromise = fs.promises.readFile(metaDataFile);
+        console.log(metaDataFile);
         return metaDataWillBeReadPromise;
     }).then(function (metadata) {
         //check why it is important to parse again
+        console.log(metadata);
         metadata = JSON.parse(metadata);
         let question = metadata[0];
+        console.log(question +" this is my wquestion");
         let willWaitToBenavigatedToQnPage = goToQuestionPage(question);
         return willWaitToBenavigatedToQnPage;
     }).then(function(){

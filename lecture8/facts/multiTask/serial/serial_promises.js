@@ -4,7 +4,7 @@ let firstPromise = fs.promises.readFile("../../f1.txt");
 firstPromise.then(function(data){
     console.log("inside first then");
     console.log(data.length);
-    let secondPromise = fs.promises.readFile("../../f3.txt");
+    let secondPromise = fs.promises.readFile("../../f3.html");
     //returned promise 
     return secondPromise;
 }).then(function(data){
@@ -20,6 +20,7 @@ function(err){
     console.log("Error occured");
     console.log(err);
 }).then(undefined,function(er){
+    console.log("I am line no 23 (last line ) ***");
     console.log(er);
 })
 
