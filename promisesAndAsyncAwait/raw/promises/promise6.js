@@ -1,20 +1,13 @@
-//extension of promise1.js
-
-//Dry Run all these codes by making the diagram => it's easy with that.
-
 function promiseCreator(){
     return new Promise(function(resolve,reject){
         setTimeout(function(){
-            //here, first error will occur because there's no one to catch the error.
-            //though the value of the promise will be => Promise {<rejected> : some error only.}
-            
-
-            //It shows that the value of the promise is rejected in case of rejection.
-            //whereas if the promise is only resolved, output will be Promise {"some error only"}.
-            //or Promise {10}, whatever we pass to it.
-            resolve("some error only");
+            //as, according to dry run, all the main code has executed once, and we see that
+            //there is sync catch() attached to it [catch are sync in nature]
+            //so it will through the error at the moment setTimeout fn ends.
+            reject("some error only");
         },1000);
     })
+    //gets returned from here => [while breakpoint debugging]
 }
 
 let pPromise= promiseCreator();

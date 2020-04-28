@@ -29,7 +29,16 @@ function reject(err){
     //try these also.
     // return Promise.reject("i am rejected");
     //return Promise.resolve();
-    // throw new Error("you are an error")
+    // throw new Error("you are an error send by reject/fcb of 1st then.")
+}
+
+function resolve1(data){
+    console.log("inside scb of 2nd then");
+    console.log(data);
+}
+function reject1(err){
+    console.log("inside of fcb of 2nd then.");
+    console.log(err);
 }
 
 //earlier, we made the scb and fcb inside then, here we have made outside as a separate function.
@@ -43,4 +52,6 @@ pPromise.then(resolve,reject)
     console.log(err);
 })
 
+
+pPromise.then(resolve,reject).then(resolve1,reject1);
 //[check] => resolve1(20) => rajan (returns undefined.)

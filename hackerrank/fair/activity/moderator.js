@@ -32,14 +32,14 @@ let uToAdd = process.argv[3];
         let usernameWillBeSendPromise = unNpsEl[0].sendKeys(user);
         let passwordWillBeSendPromise = unNpsEl[1].sendKeys(pwd);
         await Promise.all([usernameWillBeSendPromise, passwordWillBeSendPromise]);
-        console.log("We have logged in");
-        let loginBtn = await driver.findElement("button[data-analytics=LoginPassword]");
+        let loginBtn = await driver.findElement(swd.By.css("button[data-analytics=LoginPassword]"));
         await loginBtn.click();
+        console.log("We have logged in");
 
-        let adminLinkAnchor = driver.findElement(swd.By.css("a[data-analytics=NavBarProfileDropDownAdministration]"));
+        let adminLinkAnchor = await driver.findElement(swd.By.css("a[data-analytics=NavBarProfileDropDownAdministration]"));
         let adminPageUrl = await adminLinkAnchor.getAttribute("href");
         await driver.get(adminPageUrl);
-        let manageContestTab = await driver.findElement(swd.By.css(".administration header ul li"));
+        let manageContestTab = await driver.findElements(swd.By.css(".administration header ul li"));
         await manageContestTab[1].click();
     } catch (err) {
         console.log(err);

@@ -1,6 +1,7 @@
 //extension of promise1.js
 
-//Dry Run all these codes by making the diagram => it's easy with that.
+//user breakpoints to debug the code, if you do not understand it.
+//Dry Run all these codes to get a better understanding of the concepts.
 
 function promiseCreator(){
     return new Promise(function(resolve,reject){
@@ -8,11 +9,10 @@ function promiseCreator(){
             //here, first error will occur because there's no one to catch the error.
             //though the value of the promise will be => Promise {<rejected> : some error only.}
             
-
-            //It shows that the value of the promise is rejected in case of rejection.
-            //whereas if the promise is only resolved, output will be Promise {"some error only"}.
-            //or Promise {10}, whatever we pass to it.
-            resolve("some error only");
+            console.log("inside first setTimeout()");
+          //in this case, catch() has already been attached , it's just that catch's fn call hasn't been 
+          //executed yet. so it will not return any errro here. 
+            reject("some error only");
         },1000);
     })
 }
@@ -29,3 +29,6 @@ setTimeout(function(){
     //it is not the case here that we get value from the previous then(), which is there in promise4.js
     console.log(pPromise);
 },2000);
+pPromise.catch(function(err){
+    console.log(err);
+})

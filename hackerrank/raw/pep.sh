@@ -1,0 +1,1 @@
+node moderator "credentials.json" "ssomya352"
