@@ -1,8 +1,11 @@
+//derived from promise2.js 
+//output => 100
+
 function promiseCreator(){
     return new Promise(function(resolve,reject){
         setTimeout(function(){
             resolve(10);
-        },1000);
+        },20000);
     })
 }
 let pPromise= promiseCreator();
@@ -11,6 +14,5 @@ console.log(pPromise);
 function cb(data){
     console.log(data)
 }
-pPromise.then(cb)
-//functions are also variables.
-//promise.Prototype.then => used in another way [check this]
+//cb executed before the promise get into the final state.
+pPromise.then(cb(100))

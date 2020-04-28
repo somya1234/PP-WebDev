@@ -14,7 +14,15 @@ console.log(pPromise);
 function resolve(data){
     console.log(data)
 }
+//reject named is a fcb() here, and it can suppress any error 
+//as we know there are 2 methods of handling an error .
+//[fcb of then() or catch()].
 function reject(err){
     console.log(err);
 }
-pPromise.then(resolve,reject).then(resolve1,reject1);
+pPromise.then(resolve,reject);
+//pPromise.then(function scb(){
+
+// },function fcb(){
+
+// })
