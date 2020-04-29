@@ -1,9 +1,12 @@
 function promiseCreator(){
     return new Promise(function(resolve,reject){
         //try without setTimeout() only reject(), sync code.
-        setTimeout(function(){
-            reject(10);
-        },10000);
+        // setTimeout(function(){
+        //     reject(10);
+        // },10000);
+
+        reject(10);
+        //it simply put the value of promise to 10 as no fcb() found.
     })
 }
 
@@ -21,6 +24,7 @@ function reject(err){
     console.log(err);
 }
 pPromise.then(resolve,reject);
+//it calls for reject(). //or fcb().
 //pPromise.then(function scb(){
 
 // },function fcb(){
