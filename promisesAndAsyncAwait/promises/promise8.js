@@ -16,3 +16,5 @@ function cb(data){
 }
 //cb executed before the promise get into the final state.
 pPromise.then(cb(100))
+//this is a constant.
+//functions are also variables .

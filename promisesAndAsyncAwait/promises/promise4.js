@@ -5,8 +5,8 @@ function promiseCreator(){
     return new Promise(function nameOrNot(resolve,reject){
         setTimeout(function(){
             resolve(10);
-        },2000);
-        //try with 2000s .
+        },20000);
+        //this case is very important to realise when setTimeout1 is larger than setTimeout2.
     })
 }
 let pPromise= promiseCreator();
@@ -26,7 +26,7 @@ console.log(pPromiseFrom1stthen);
 setTimeout(function(){
     console.log("```````````````````````````");
     console.log(pPromiseFrom1stthen);
-},4000);
+},20000);
 
 //failure callback
 //success callback
@@ -38,3 +38,6 @@ setTimeout(function(){
 //promise {20} comes because dependent on above promise.
 
 //whenever we prints the value of a promise, it shows like Promise : {whatever value}
+
+//if taken small margins while debugging between setTimeout1 and setTimeout2, the time will 
+//be spent on debugging and it will behave differently.

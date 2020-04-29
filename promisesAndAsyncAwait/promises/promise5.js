@@ -42,16 +42,17 @@ function reject1(err){
 }
 
 //earlier, we made the scb and fcb inside then, here we have made outside as a separate function.
-pPromise.then(resolve,reject)
+// pPromise.then(resolve,reject)
 //whatever this returns, according to that next then() works.
-.then(function(data){
-    console.log("scb of 2 then");
-    console.log(data)
-},function(err){
-    console.log("2 fcb ")
-    console.log(err);
-})
+// .then(function(data){
+//     console.log("scb of 2 then");
+//     console.log(data)
+// },function(err){
+//     console.log("2 fcb ")
+//     console.log(err);
+// })
 
 
 pPromise.then(resolve,reject).then(resolve1,reject1);
 //[check] => resolve1(20) => rajan (returns undefined.)
+//answer to rajan problem => copying value from the old promise.
