@@ -1,1 +1,1 @@
-node moderator "credentials.json"  ankushgoyalxyz
+node moderator "credentials.json"  "questions.js"

@@ -23,7 +23,9 @@ function resolve(data){
 function reject(err){
     console.log(err);
 }
-pPromise.then(resolve,reject);
+
+//if there is no catch(), then error would have been printed.
+// pPromise.then(resolve,reject);
 //it calls for reject(). //or fcb().
 //pPromise.then(function scb(){
 
