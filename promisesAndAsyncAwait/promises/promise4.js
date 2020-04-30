@@ -5,7 +5,7 @@ function promiseCreator(){
     return new Promise(function nameOrNot(resolve,reject){
         setTimeout(function(){
             resolve(10);
-        },20000);
+        },12000);
         //this case is very important to realise when setTimeout1 is larger than setTimeout2.
     })
 }
@@ -15,7 +15,7 @@ console.log(pPromise);
 function resolve(data){
     console.log("inside resolve of first then");
     console.log(data);
-    return 20;
+    return new Error("ok ghy");
 }                                   
 function reject(err){
     console.log(err);
@@ -26,7 +26,7 @@ console.log(pPromiseFrom1stthen);
 setTimeout(function(){
     console.log("```````````````````````````");
     console.log(pPromiseFrom1stthen);
-},20000);
+},12000);
 
 //failure callback
 //success callback

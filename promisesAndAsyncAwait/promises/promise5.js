@@ -24,12 +24,7 @@ function reject(err){
     //here 10 goes to it
     //so err= > 10 and 10 is printed here.
     console.log(err);
-    //but it return undefined to 2 then.
-
-    //try these also.
-    // return Promise.reject("i am rejected");
-    //return Promise.resolve();
-    // throw new Error("you are an error send by reject/fcb of 1st then.")
+  
 }
 
 function resolve1(data){
@@ -40,6 +35,20 @@ function reject1(err){
     console.log("inside of fcb of 2nd then.");
     console.log(err);
 }
+pPromise.then(resolve,reject).then(resolve1,reject1);
+// pPromise.then()
+
+
+
+
+
+
+
+//[check] => resolve1(20) => rajan (returns undefined.)
+//answer to rajan problem => copying value from the old promise.
+
+
+
 
 //earlier, we made the scb and fcb inside then, here we have made outside as a separate function.
 // pPromise.then(resolve,reject)
@@ -52,7 +61,10 @@ function reject1(err){
 //     console.log(err);
 // })
 
+//2//
+  //but it return undefined to 2 then.
 
-pPromise.then(resolve,reject).then(resolve1,reject1);
-//[check] => resolve1(20) => rajan (returns undefined.)
-//answer to rajan problem => copying value from the old promise.
+    //try these also.
+    // return Promise.reject("i am rejected");
+    //return Promise.resolve();
+    // throw new Error("you are an error send by reject/fcb of 1st then.")
