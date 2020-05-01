@@ -11,6 +11,7 @@ new Promise((resolve, reject) => {
     //after throw error , it returns an error from that function
     //so lines after that won't execue.
     throw new Error('Something failed');
+    //it caused a rejection here so the next line wasn;t printed.
         
     console.log('Do this');
 })

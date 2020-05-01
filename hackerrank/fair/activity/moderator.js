@@ -17,6 +17,7 @@ let questionFile = process.argv[3];
         await loginHelper();
         //user will never use href
         //so find element for dropdown **************************
+        // await waitForLoader();
         let DropDownBtn = await driver.findElement(swd.By.css("a[data-analytics=NavBarProfileDropDown]"));
         await DropDownBtn.click();
 
@@ -30,13 +31,28 @@ let questionFile = process.argv[3];
         /************ manage contest click *********** */
         let manageContestTab = await driver.findElements(swd.By.css(".administration header ul li"));
         await manageContestTab[1].click();
-
+        console.log("challenge clicked");
         let ManageChallengePage = await driver.getCurrentUrl();
         //to get an object
+
+        //we have read the file for credentials.json , therefore, we did not do module.exports for that file.
+        //but here, we are requiring the file, so we need to do exports.json()
+
+        //we can read the file also here, then we don't need to write module.exports in question.js
+        // [note] => do not remember to remove export before you use this method.
+        // let qfile = await fs.promises.readFile(questionFile);
+        // let questions = JSON.parse(qfile);  
+        // console.log(questions);
+
+        //option 2
+        //we can directly require the file => it will return an object directly.
+        //here, we have to write module.exports in question.js to require the array in another file.
         let questions = require(questionFile);
+        // console.log(questions)
+
         for(let i=0;i<questions.length;i++){
             await driver.get(ManageChallengePage);
-            // await waitForLoader();
+            await waitForLoader();
             await createNewChallenge(questions[i]);
         }
         //json file read 
@@ -49,7 +65,6 @@ let questionFile = process.argv[3];
 })()
 
 async function editorHandler(parentSelector, selector, data) {
-    selector.split(" ").pop();
     let textAreaParent = await driver.findElement(swd.By.css(parentSelector));
     //in dom=> document.querySelector(".problem-statement").style.height="10px";
     //you can change style.backgroundColor = "red"
@@ -57,8 +72,8 @@ async function editorHandler(parentSelector, selector, data) {
     //you have to use arguments to manipulate here .
     //
     //here, we only use argument[0] in selenium instead of document in jquery.
-    await driver.executeScript("arguments[0].style.height=10px", textAreaParent)
-    await selector.sendKeys("data");
+    await driver.executeScript("arguments[0].style.height='10px'", textAreaParent);
+    await selector.sendKeys(data);
 }
 
 async function loginHelper() {
@@ -108,7 +123,7 @@ async function createNewChallenge(question) {
     //because it is not possibe.
 
     //element will be found promise 
-    let eSelector = ["name", "textarea.description", "#problem_statement-container .CodeMirror textarea",
+    let eSelector = ["#name", "textarea.description", "#problem_statement-container .CodeMirror textarea",
         "#input_format-container .CodeMirror textarea",
         "#constraints-container .CodeMirror textarea", "#output_format-container .CodeMirror textarea", "#tags_tag"];
     //use map() to reduce the code .
@@ -131,29 +146,34 @@ async function createNewChallenge(question) {
     //promise.all maintains the order in which order the answer is get first,
     //in that order only it will give for sendKeys . 
     //so it maintains the order by taking the save indices.
-
+    console.log("before elements")
     let allElements = await Promise.all(eleWillBeSelectedPromise);
     //always use [] to fetch any key value form the object 
     //whenever there is space in th key
+    console.log("all elements reached");
+
+  
     let NameWillBeAddedPromise = allElements[0].sendKeys(question["Challenge Name"]);
     let descWillBeAddedPromise = allElements[1].sendKeys(question["Description"]);
     await Promise.all([NameWillBeAddedPromise, descWillBeAddedPromise]);
     console.log("name and description added");
 
-    let data = "strong try";
+
+    // let data = "strong try";
+
     await editorHandler("#problem_statement-container .CodeMirror div", allElements[2], question["Problem Statement"]);
     await editorHandler("#input_format-container .CodeMirror div",allElements[3], question["Input Format"]);
     await editorHandler("#constraints-container .CodeMirror div",allElements[4], question["Constraints"]);
-    await editorHandler("#output_format-container .CodeMirror div",allElements[4], question["Output Format"]);
+    await editorHandler("#output_format-container .CodeMirror div",allElements[5], question["Output Format"]);
 
     console.log("all code editors have some data .");
     //just to show that we can exxecute js using executeScript 
     // await driver.executeScript("alert(hello all)");
 
     let TagInput = allElements[6];
-    await TagInput.sendKeys(data);
+    await TagInput.sendKeys(question["Tags"]);
     await TagInput.sendKeys(swd.Key.ENTER);
-    let submitBtn = await driver.findElement(swd.By.css("save-challenge.btn.btn-green"));
+    let submitBtn = await driver.findElement(swd.By.css(".save-challenge.btn.btn-green"));
     await submitBtn.click();
 
 

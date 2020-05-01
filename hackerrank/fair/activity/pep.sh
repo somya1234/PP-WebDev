@@ -1,1 +1,1 @@
-node moderator "credentials.json"  "questions.js"
+node moderator "credentials.json"  "./questions2.js"
